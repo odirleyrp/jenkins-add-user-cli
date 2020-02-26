@@ -1,5 +1,4 @@
 #!/bin/bash
-## Loop que coleta cada nome e seta uma variavel
 
 #echo 'Digite o nome do grupo'
 #read GRUPO
@@ -18,49 +17,54 @@ DIR1=/var/jenkins_home/scripts_dir/grupos-jenkins
 L_USER=$DIR1/users.txt
 L_GRUPO=$DIR1/grupo.txt
 L_JOBS=$DIR1/jobs.txt
-# Coleta os jobs de um Grupo e envia para o arquivo definido na variavel GRUPO. Utiliza o grep para coletar apenas os nomes 
+
+# Limpa o arquivo da variavel L_JOBS
 echo > $L_JOBS
 
+# Coleta os jobs dos  Grupos listados na variavel L_GRUPO e envia  o nome de todos os jos para o  arquivo definido na variavel L_JOBS. Utiliza o grep para coletar apenas os nomes 
 for GRUPO in $(cat $L_GRUPO); do
-echo " $GRUPO"
+echo "Listando o grupo  $GRUPO"
 
 java -jar ../jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin get-view $GRUPO |grep string  |cut -d '>' -f 2 |cut  -d '<' -f 1 >> $L_JOBS
 
 done
 
+#retirar duplicidade de nomes e envia para um novo arquivo
+cat $L_JOBS |sort |uniq > $DIR1/lista-limpa
 
-ARQ1=$L_JOBS
+ARQ1=$DIR1/lista-limpa
 ARQ2=$DIR1/lista-projetos
 #grep prd  $ARQ1  > $DIR1/prod.txt
 #PROD=$DIR1/prod.txt
 
-#Acessa o arquivo gerado acima, e baixa o job correspondente jogando os dados para um xml correspondente ao nome
+#Acessa o arquivo gerado acima, e baixa o job  jogando os dados para um xml correspondente ao nome.
 for ARQUIVO in `cat $ARQ1`
 do
-    echo ${ARQUIVO}  
+    echo "Baixando o xml do job ${ARQUIVO} " 
 java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin get-job ${ARQUIVO} > $DIR1/${ARQUIVO}.xml
  #   sleep 2
 done
 
+#Arquivo da variavel $ARQ1 mais abaixo será retirado toda a menção a 'prd',  essa copia será utilizada para realizar o upload ao jenkins dos novos xml.
 cp $ARQ1 $ARQ2
 
 
-#Verificar se o usuario existe, se não ele adiciona no arquivo .xml e em seguida o upload do arquivo 
+#Verificar se o usuario existe, se não ele adiciona no arquivo .xml .
 
 for ARQUIVO  in `cat $ARQ1` 
 do for USER in $(cat $L_USER); do
         if      cat $DIR1/${ARQUIVO}.xml |grep $USER > /dev/null
         then
-               echo "$DIR1/${ARQUIVO}.xml -> EXISTE"
+               echo "Usuario  $USER exixte no job ${ARQUIVO}.xml "
 
 ######Verifica se o  projeto é prod pelo nome, se sim, insere as permissões e em seguida deleta da lista o nome desse projeto. 
  elif  echo $ARQUIVO |egrep -q 'prd' ; then
 
-	echo "$ARQUIVO -> PROD"
+	echo "Inserindo o usuario $USER no job de PROD  $ARQUIVO  "
 	sleep 2
 
 
-#then.
+#then
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Read:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Workspace:$USER</permission>'" $DIR1/${ARQUIVO}.xml
@@ -74,7 +78,7 @@ do for USER in $(cat $L_USER); do
 
 
         else
-              echo "$DIR1/${ARQUIVO}.xml -> NAO"
+              echo "Inserindo o usuario $USER  no job ${ARQUIVO}.xml "
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Read:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Workspace:$USER</permission>'" $DIR1/${ARQUIVO}.xml
@@ -85,20 +89,14 @@ do for USER in $(cat $L_USER); do
        fi
 done
 done
-#java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin update-job  ${ARQUIVO}  < $DIR1/${ARQUIVO}.xml
 
+#Realiza o UPLOAD dos .xml para o Jenkins, após todas as alterações.
 
-
-
-for  VAR1 in $(cat $ARQ2 ); do
+for  PROJ in $(cat $ARQ2 ); do
 #if echo $VAR1 |egrep -q "$GRUPO"; then
 #		echo " $VAR1"
-echo "realizando o uplodad de  $VAR1 para o Jenkins"
-java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin update-job  ${VAR1}  < $DIR1/${VAR1}.xml
-#	sleep 2	
-#	else
-#		echo " ----- OK ---- "
-#	fi
+echo "realizando o uplodad de  $PROJ para o Jenkins"
+java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin update-job  ${PROJ}  < $DIR1/${PROJ}.xml
 done
 		
 
