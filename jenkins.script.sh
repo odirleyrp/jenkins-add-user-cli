@@ -14,11 +14,7 @@ echo " o diretorio $JOB_NAME/tmp/ será criado."
 mkdir /var/jenkins_home/workspace/$JOB_NAME/tmp/
 fi
 
-
-
-
 echo "################################################"
-
 
 # Inserindo o valor das variáveis nos respectivos arquivos
 echo $USER_JENKINS > tmp/user.txt
@@ -41,8 +37,6 @@ for  PROJ1 in  $(cat $GRUPO1); do
 done
 
 ############ separacao   ###########
-
-
 
 DIR1=/var/jenkins_home/workspace/$JOB_NAME/tmp
 L_USER=${USER1}
@@ -101,9 +95,6 @@ do for USER in $(cat $L_USER); do
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Read:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Workspace:$USER</permission>'" $DIR1/${ARQUIVO}.xml
-#		java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin update-job  ${ARQUIVO}  < $DIR1/${ARQUIVO}.xml
-
-		sleep 2
 	
 		sed -i "/${ARQUIVO}/d" $ARQ1
 #######################################################
