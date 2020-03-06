@@ -1,7 +1,10 @@
-#echo $USER_JENKINS
-#sleep 5
-#echo $GRUPO_JENKINS
-
+#!/bin/bash
+#Script para adicionar usuarios do Jenkins nos Jobs.
+#Criado por Odirley Pereira
+#06/03/2020
+#odirleyrp@gmail.com
+#Criado um Job no Jenkins no qual utilizamos para obter dados de duas variaveis 
+#são elas $USER_JENKINS e $GRUPOR_JENKINS 
 
 ### Validar se diretorio tmp existe, caso contrário, será criado " ##3#
 
@@ -14,10 +17,7 @@ echo " o diretorio $JOB_NAME/tmp/ será criado."
 mkdir /var/jenkins_home/workspace/$JOB_NAME/tmp/
 fi
 
-
-
-
-echo "################################################"
+#########################################
 
 
 # Inserindo o valor das variáveis nos respectivos arquivos
@@ -30,7 +30,6 @@ GRUPO1=/var/jenkins_home/workspace/$JOB_NAME/tmp/grupo.txt
  $(cat $ARQ2 )
 
 # Informar os usuários e Grupos coletado nas variáveis
-echo "###############################################"
 
 for  PROJ in  $(cat $USER1); do
 		echo " usuario definido é  $PROJ"
@@ -40,9 +39,7 @@ for  PROJ1 in  $(cat $GRUPO1); do
 		echo " O grupo  definido é  $PROJ1"
 done
 
-############ separacao   ###########
-
-
+############ declaracao de novas variaveis   ###########
 
 DIR1=/var/jenkins_home/workspace/$JOB_NAME/tmp
 L_USER=${USER1}
