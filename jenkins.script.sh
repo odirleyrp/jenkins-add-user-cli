@@ -12,6 +12,7 @@ rm -rf /var/jenkins_home/workspace/$JOB_NAME/tmp/*
 else
 echo " o diretorio $JOB_NAME/tmp/ será criado."
 mkdir /var/jenkins_home/workspace/$JOB_NAME/tmp/
+mkdir tmp
 fi
 
 echo "################################################"
