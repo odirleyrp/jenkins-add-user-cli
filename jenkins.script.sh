@@ -1,6 +1,6 @@
 #!/bin/bash
 #Script para adicionar usuarios do Jenkins nos Jobs.
-#Criado por Odirley Pereira
+#Criado por Odirley Pereira.
 #06/03/2020
 #odirleyrp@gmail.com
 #Criado um Job no Jenkins no qual utilizamos para obter dados de duas variaveis 
