@@ -1,6 +1,6 @@
 #echo $USER_JENKINS
 #sleep 5
-#echo $GRUPO_JENKINS1
+#echo $GRUPO_JENKINS.
 
 
 ### Validar se diretorio tmp existe, caso contrário, será criado " ##3#
