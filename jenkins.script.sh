@@ -25,8 +25,8 @@ echo $USER_JENKINS > tmp/user.txt
 echo $GRUPO_JENKINS > tmp/grupo.txt
 
 # Desclarando variaveis 
-USER1=/var/jenkins_home/workspace/$JOB_NAME/tmp/user.txt
-GRUPO1=/var/jenkins_home/workspace/$JOB_NAME/tmp/grupo.txt
+USER1=tmp/user.txt
+GRUPO1=tmp/grupo.txt
  $(cat $ARQ2 )
 
 # Informar os usuários e Grupos coletado nas variáveis
@@ -41,7 +41,7 @@ done
 
 ############ declaracao de novas variaveis   ###########
 
-DIR1=/var/jenkins_home/workspace/$JOB_NAME/tmp
+DIR1=tmp
 L_USER=${USER1}
 L_GRUPO=${GRUPO1}
 L_JOBS=$DIR1/jobs.txt
