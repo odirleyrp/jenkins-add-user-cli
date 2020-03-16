@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #!/bin/bash
 #Script para adicionar usuarios do Jenkins nos Jobs.
 #Criado por Odirley Pereira.
@@ -5,6 +6,12 @@
 #odirleyrp@gmail.com
 #Criado um Job no Jenkins no qual utilizamos para obter dados de duas variaveis 
 #são elas $USER_JENKINS e $GRUPOR_JENKINS 
+=======
+#echo $USER_JENKINS
+#sleep 5
+#echo $GRUPO_JENKINS.
+
+>>>>>>> 61941749a09427871a1400d7e5fe645600bcd56a
 
 ### Validar se diretorio tmp existe, caso contrário, será criado " ##3#
 
@@ -14,11 +21,15 @@ echo " o diretorio $JOB_NAME/tmp/  existe, apagando os arquivos dentro do direto
 rm -rf /var/jenkins_home/workspace/$JOB_NAME/tmp/*
 else
 echo " o diretorio $JOB_NAME/tmp/ será criado."
-mkdir /var/jenkins_home/workspace/$JOB_NAME/tmp/
+#mkdir /var/jenkins_home/workspace/$JOB_NAME/tmp/
+mkdir tmp
 fi
 
+<<<<<<< HEAD
 #########################################
-
+=======
+echo "################################################"
+>>>>>>> 61941749a09427871a1400d7e5fe645600bcd56a
 
 # Inserindo o valor das variáveis nos respectivos arquivos
 echo $USER_JENKINS > tmp/user.txt
@@ -39,9 +50,15 @@ for  PROJ1 in  $(cat $GRUPO1); do
 		echo " O grupo  definido é  $PROJ1"
 done
 
+<<<<<<< HEAD
 ############ declaracao de novas variaveis   ###########
 
 DIR1=tmp
+=======
+############ separacao   ###########
+
+DIR1=/var/jenkins_home/workspace/$JOB_NAME/tmp
+>>>>>>> 61941749a09427871a1400d7e5fe645600bcd56a
 L_USER=${USER1}
 L_GRUPO=${GRUPO1}
 L_JOBS=$DIR1/jobs.txt
@@ -98,9 +115,6 @@ do for USER in $(cat $L_USER); do
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>com.cloudbees.plugins.credentials.CredentialsProvider.View:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Read:$USER</permission>'" $DIR1/${ARQUIVO}.xml
 		sed -i "/\/hudson.security.AuthorizationMatrixProperty/i <permission>hudson.model.Item.Workspace:$USER</permission>'" $DIR1/${ARQUIVO}.xml
-#		java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin update-job  ${ARQUIVO}  < $DIR1/${ARQUIVO}.xml
-
-		sleep 2
 	
 		sed -i "/${ARQUIVO}/d" $ARQ1
 #######################################################
