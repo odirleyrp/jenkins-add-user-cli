@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 #!/bin/bash
 #Script para adicionar usuarios do Jenkins nos Jobs.
 #Criado por Odirley Pereira.
