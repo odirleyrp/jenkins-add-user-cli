@@ -74,7 +74,12 @@ java -jar jenkins-cli.jar -s http://localhost:8080/ -auth admin:admin get-job ${
  #   sleep 2
 done
 
-## Ate aqui OK###############
+# backup dos xmls antes de realizar as alterações
+
+
+tar cf ../BKP/$CHAMADO.tar.gz $DIR1
+
+echo " Salvo o bkp dos XMLs baseando no numero do chamado ->  /var/jenkins_home/workspace/BKP/$CHAMADO.tar.gz "
 
 #Arquivo da variavel $ARQ1 mais abaixo será retirado toda a menção a 'prd',  essa copia será utilizada para realizar o upload ao jenkins dos novos xml.
 cp $ARQ1 $ARQ2
