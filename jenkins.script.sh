@@ -5,12 +5,10 @@
 #odirleyrp@gmail.com
 #Criado um Job no Jenkins no qual utilizamos para obter dados de duas variaveis 
 #são elas $USER_JENKINS e $GRUPOR_JENKINS 
-=======
 #echo $USER_JENKINS
 #sleep 5
 #echo $GRUPO_JENKINS.
 
->>>>>>> 61941749a09427871a1400d7e5fe645600bcd56a
 
 ### Validar se diretorio tmp existe, caso contrário, será criado " ##3#
 
@@ -24,11 +22,8 @@ echo " o diretorio $JOB_NAME/tmp/ será criado."
 mkdir tmp
 fi
 
-<<<<<<< HEAD
 #########################################
-=======
 echo "################################################"
->>>>>>> 61941749a09427871a1400d7e5fe645600bcd56a
 
 # Inserindo o valor das variáveis nos respectivos arquivos
 echo $USER_JENKINS > tmp/user.txt
@@ -49,15 +44,12 @@ for  PROJ1 in  $(cat $GRUPO1); do
 		echo " O grupo  definido é  $PROJ1"
 done
 
-<<<<<<< HEAD
 ############ declaracao de novas variaveis   ###########
 
 DIR1=tmp
-=======
 ############ separacao   ###########
 
 DIR1=/var/jenkins_home/workspace/$JOB_NAME/tmp
->>>>>>> 61941749a09427871a1400d7e5fe645600bcd56a
 L_USER=${USER1}
 L_GRUPO=${GRUPO1}
 L_JOBS=$DIR1/jobs.txt
